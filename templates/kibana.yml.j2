@@ -1,7 +1,7 @@
 server.host: "0.0.0.0"
 {% if ansible_distribution == "CentOS" %}
-centos.hosts: ["http://{{ hostvars['el-centos']['ansible_facts']['default_ipv4']['address'] }}:9200"]
+elasticsearch.hosts: ["http://{{ hostvars['el-centos']['ansible_facts']['default_ipv4']['address'] }}:9200"]
 {% else %}
-debian.hosts: ["http://{{ hostvars['el-deb']['ansible_facts']['default_ipv4']['address'] }}:9200"]
+elasticsearch.hosts: ["http://{{ hostvars['el-deb']['ansible_facts']['default_ipv4']['address'] }}:9200"]
 {% endif %}
 kibana.index: ".kibana"
