@@ -1,9 +1,6 @@
 ---
-- name: Install Kibana
-  hosts: kibana
-  handlers:
-    - name: restart Kibana
-      become: true
-      service:
-        name: kibana
-        state: restarted
+- name: restart Kibana
+  become: true
+  service:
+    name: kibana
+    state: restarted
