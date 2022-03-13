@@ -1,0 +1,52 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+lint: |
+  ansible-lint .
+  yamllint .
+platforms:
+  - name: instance-3
+    image: docker.io/pycontribs/centos:7
+    command: /sbin/init
+    privileged: True
+    pre_build_image: true
+    networks:
+      - elk-centos
+    links:
+      - instance-1
+  - name: instance-4
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true
+    networks:
+      - elk-ubuntu
+    links:
+      - instance-2
+provisioner:
+  name: ansible
+  log: true
+  options:
+    vvv: true
+    diff: true  
+  inventory:
+    host_vars:
+      instance-3:
+        elk_id: 2
+      instance-4:
+        elk_id: 3
+verifier:
+  name: ansible
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - destroy
